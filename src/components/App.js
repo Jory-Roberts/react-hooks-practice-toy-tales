@@ -30,7 +30,7 @@ function App() {
   }, []);
 
   const addToy = (newToy) => {
-    setToys({ ...toys, newToy });
+    setToys([...toys, newToy]);
   };
 
   return (
