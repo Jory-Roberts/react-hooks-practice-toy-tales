@@ -1,24 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import Header from "./Header";
-import ToyForm from "./ToyForm";
-import ToyContainer from "./ToyContainer";
+import Header from './Header';
+import ToyForm from './ToyForm';
+import ToyContainer from './ToyContainer';
 
 function App() {
   const [showForm, setShowForm] = useState(false);
+  const [toys, setToys] = useState([]);
 
   function handleClick() {
     setShowForm((showForm) => !showForm);
   }
 
+  useEffect(() => {
+    const fetchToys = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/toys');
+        if (!response.ok) {
+          throw new Error('request failed');
+        }
+        const toyData = await response.json();
+        setToys(toyData);
+      } catch (error) {
+        console.error('Error fetching data', error);
+        throw error;
+      }
+    };
+    fetchToys();
+  }, []);
+
+  const addToy = (newToy) => {
+    setToys({ ...toys, newToy });
+  };
+
   return (
     <>
       <Header />
-      {showForm ? <ToyForm /> : null}
-      <div className="buttonContainer">
+      {showForm ? <ToyForm addToy={addToy} /> : null}
+      <div className='buttonContainer'>
         <button onClick={handleClick}>Add a Toy</button>
       </div>
-      <ToyContainer />
+      <ToyContainer toys={toys} />
     </>
   );
 }
