@@ -1,6 +1,24 @@
 import React from 'react';
 
-function ToyCard({ name, image, likes, toyId, onDeleteToy }) {
+function ToyCard({ name, image, likes, toyId, onDeleteToy, onUpdateLikes }) {
+  const handleUpdateLikes = async (toyId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/toys/${toyId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ likes: likes + 1 }),
+      });
+      if (response.ok) {
+        onUpdateLikes(toyId, likes + 1);
+      } else {
+        console.error('Failed to update likes');
+      }
+    } catch (error) {
+      console.error('Error updating likes', error);
+    }
+  };
   const handleDeleteToy = async (toyId) => {
     try {
       const response = await fetch(`http://localhost:3001/toys/${toyId}`, {
@@ -24,7 +42,12 @@ function ToyCard({ name, image, likes, toyId, onDeleteToy }) {
         className='toy-avatar'
       />
       <p>{likes} Likes </p>
-      <button className='like-btn'>Like {'<3'}</button>
+      <button
+        className='like-btn'
+        onClick={() => handleUpdateLikes(toyId)}
+      >
+        Like {'<3'}
+      </button>
       <button
         className='del-btn'
         onClick={() => handleDeleteToy(toyId)}

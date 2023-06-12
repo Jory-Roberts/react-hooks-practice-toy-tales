@@ -10,6 +10,7 @@ function ToyForm({ addToy }) {
     const newToy = {
       name,
       image,
+      likes: 0,
     };
 
     try {
