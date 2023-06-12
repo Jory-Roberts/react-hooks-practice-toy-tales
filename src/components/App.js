@@ -33,6 +33,10 @@ function App() {
     setToys([...toys, newToy]);
   };
 
+  const onDeleteToy = (toyId) => {
+    setToys(toys.filter((toy) => toy.id !== toyId));
+  };
+
   return (
     <>
       <Header />
@@ -40,7 +44,10 @@ function App() {
       <div className='buttonContainer'>
         <button onClick={handleClick}>Add a Toy</button>
       </div>
-      <ToyContainer toys={toys} />
+      <ToyContainer
+        toys={toys}
+        onDeleteToy={onDeleteToy}
+      />
     </>
   );
 }

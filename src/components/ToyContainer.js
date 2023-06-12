@@ -1,7 +1,7 @@
 import React from 'react';
 import ToyCard from './ToyCard';
 
-function ToyContainer({ toys }) {
+function ToyContainer({ toys, onDeleteToy }) {
   return (
     <div id='toy-collection'>
       {
@@ -12,6 +12,8 @@ function ToyContainer({ toys }) {
               name={toy.name}
               image={toy.image}
               likes={toy.likes}
+              onDeleteToy={onDeleteToy}
+              toyId={toy.id}
             />
           );
         })
